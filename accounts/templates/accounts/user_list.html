@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Usuários{% endblock %}
+
+{% block content %}
+<h2>Usuários</h2>
+
+<ul>
+    {% for user in users %}
+    <li>
+        <strong>{{ user.username }}</strong>
+
+        <a href="{% url 'profile' user.id %}">Ver perfil</a>
+
+        {% if user.profile in request.user.profile.following.all %}
+        <form action="{% url 'unfollow' user.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Deixar de seguir</button>
+        </form>
+        {% else %}
+        <form action="{% url 'follow' user.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Seguir</button>
+        </form>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

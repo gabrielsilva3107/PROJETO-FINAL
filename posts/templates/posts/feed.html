@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Feed{% endblock %}
+
+{% block content %}
+<h2>Feed</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <textarea name="content" rows="3" placeholder="O que está acontecendo?"></textarea><br>
+    <button type="submit">Postar</button>
+</form>
+
+{% for post in posts %}
+    <div class="post">
+    <strong>{{ post.user.username }}</strong>: {{ post.content }}
+    <br>
+    <small>{{ post.created_at }}</small>
+    </div>
+{% empty %}
+    <p>Nenhum post por enquanto.</p>
+{% endfor %}
+{% endblock %}

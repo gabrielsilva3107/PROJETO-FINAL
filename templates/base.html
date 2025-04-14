@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Twitter Simples{% endblock %}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background-color: #f9f9f9;
+    }
+
+    h2 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .post {
+      background-color: #fff;
+      padding: 10px;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .top-nav {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-nav">
+    {% if user.is_authenticated %}
+      <p>
+        Olá, {{ user.username }} |
+        <a href="{% url 'feed' %}">Feed</a>
+        <a href="{% url 'user_list' %}">Usuários</a>
+        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit">Sair</button>
+        </form>
+      </p>
+    {% else %}
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'register' %}">Cadastrar</a>
+    {% endif %}
+  </div>
+
+  {% block content %}{% endblock %}
+</body>
+</html>
