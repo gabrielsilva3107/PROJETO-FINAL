@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Perfil{% endblock %}
+
+{% block content %}
+<h2>Editar Perfil</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <label for="id_username">Nome de usuário:</label><br>
+    {{ user_form.username }}<br><br>
+
+    <label for="id_bio">Bio:</label><br>
+    {{ profile_form.bio }}<br><br>
+
+    <label for="id_image">Imagem de perfil:</label><br>
+    {{ profile_form.image }}<br><br>
+
+    <button type="submit">Salvar</button>
+</form>
+{% endblock %}

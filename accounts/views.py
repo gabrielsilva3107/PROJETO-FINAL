@@ -5,6 +5,7 @@ from django.contrib.auth.views import LoginView
 from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from .forms import UserForm, ProfileForm
 
 
 def register_view(request):
@@ -49,4 +50,23 @@ def profile_view(request, user_id):
     return render(request, 'accounts/profile.html', {
         'target_user': target_user,
         'posts': posts
+    })
+
+@login_required
+def edit_profile(request):
+    user_form = UserForm(instance=request.user)
+    profile_form = ProfileForm(instance=request.user.profile)
+
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('feed')
+
+    return render(request, 'accounts/edit_profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
     })
